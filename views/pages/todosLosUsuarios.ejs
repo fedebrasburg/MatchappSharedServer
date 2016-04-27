@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<body>
+
+<% include ../partials/navUsuarios.ejs %>
+
+<div class="container">
+<h2>Usuarios</h2>
+
+<ul>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Id </th>
+					<th>Nombre </th>
+					<th>Alias </th>
+					<th>Sexo </th>
+					<th>Edad </th>
+					<th>Foto </th>
+					<th>Ubicacion </th>
+					<th>Intereses </th>
+				</tr>
+			</thead>
+			<tbody>
+			    <% results.forEach(function(r) { %>
+			    	<tr>
+			    	<th><%= r.id %></th>
+					<th><%= r.name %> </th>
+					<th><%= r.alias %> </th>
+					<th><%= r.sex %> </th>
+					<th><%= r.age %></th>
+					<th>
+						<a href="" data-toggle="modal" data-target="#<%= r.id %>">Ver Imagen</a>
+						<div id="<%= r.id %>" class="modal fade" tabindex="-1" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">
+										<img src="<%= r.photo_profile %>" class="img-responsive">
+									</div>
+								</div>
+							</div>
+						</div>	
+					</th>
+					<th>Longitud: <%= r.location.longitude %>, Latitud: <%= r.location.latitude %></th>
+					<th>		
+						<ul class="list-group">
+							<% r.interests.forEach(function(a){ %>
+							<li class="list-group-item"> <%= a.value %></li>
+							<% });%>
+						</ul> 
+					</th>
+        			</tr>
+    				<% }); %>
+			</tbody>
+		</table>
+		<a href="/crearUsuario"><span class="glyphicon glyphicon-plus"></span>Crear Usuario</a>
+	</div>
+</ul>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+ 
+<!-- Include the plugin's CSS and JS: -->
+<script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+<link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css"/>
+
+
+<body>
+
+<% include ../partials/navUsuarios.ejs %>
+
+
+<div class="container">
+<h2>Creacion de Usuario</h2>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#example-getting-started').multiselect({
+        	disableIfEmpty: true;
+        });
+    });
+</script>
+
+<ul>
+	<div class="table-responsive">
+		<div class="table-responsive">
+		<form   enctype="application/json">
+			<label for="name"> Nombre y Apellido:</label>
+			<input class="form-control" name="user[name]" id="name" value="" required> <br>
+			<label for="alias"> Alias:</label>
+			<input class="form-control" name="user[alias]" id="alias" value="" required> <br>
+			<label for="email"> Mail:</label>
+			<input class="form-control" name="user[email]" id="email" value="" required> <br>
+			<label for="age"> Edad:</label>
+			<input class="form-control" name="user[age]" id="age" value="" required> <br>
+			<label> Sexo:</label>
+			<select class="form-control" name="user[sex]">
+				<option>H</option>
+				<option>M</option>
+			</select> <br> 
+			<label> Foto: </label>
+			<input class="form-control" type="file" name="user[photo_profile]" id="fileToUpload">
+			<label> Intereses: </label> <br>
+			<select id="example-getting-started" title="Interests" multiple="multiple">
+			    <option value="cheese">Cheese</option>
+			    <option value="tomatoes">Tomatoes</option>
+			    <option value="mozarella">Mozzarella</option>
+			    <option value="mushrooms">Mushrooms</option>
+			    <option value="pepperoni">Pepperoni</option>
+			    <option value="onions">Onions</option>
+			</select>
+			<input class="btn btn-default" type="submit" value="Crear Usuarios">
+		</form>
+		</div>
+	</div>
+</ul>
+
+</body>
+</html>

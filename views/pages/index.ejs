@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</head>
+
+<style>
+.bg-1{
+	background-color: #C94242;
+	color: #ffffff;
+}
+.bg-2 { 
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
+}
+.bg-3 { 
+    background-color: #ffffff; /* White */
+    color: #555555;
+}
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.bg-4 { 
+    background-color: #2f2f2f;
+    color: #ffffff;
+}
+</style>
+
+<body>
+
+<% include ../partials/navHome.ejs %>
+
+<div class="container-fluid bg-1 text-center">
+	<h1>Titulo</h1>
+	<li><a href="/todosLosUsuarios">Lista de Usuarios</a> </li>
+	<li><a href="/todosLosIntereses">Lista de intereses</a> </li>
+	<li><a href="/todosLasCategorias">Lista de Categorias</a> </li>
+</div>
+<div class="container-fluid bg-2 text-center">
+  <h3>Descripcion</h3>
+  <p>Lorem ipsum..</p>
+</div>
+<div class="container-fluid bg-3 text-center"> 
+  <h3>Capturas</h3>
+  <div class="row">
+    <div class="col-sm-4">
+      <p>Lorem ipsum..</p>
+      <img src="birds1.jpg" alt="Image">
+    </div>
+    <div class="col-sm-4">
+      <p>Lorem ipsum..</p>
+      <img src="birds2.jpg" alt="Image">
+    </div>
+    <div class="col-sm-4"> 
+      <p>Lorem ipsum..</p>
+      <img src="birds3.jpg" alt="Image">
+    </div>
+  </div>
+</div>
+
+<footer class="container-fluid bg-4 text-center">
+  <p>MatchApp© page made by Brasburg, Concilio, Diaz, Otero</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+
+<script type="text/javascript">
+	function validar(){
+		if(document.formu.name.value ==""){
+			$("#mensajeError").fadeIn("slow");
+			return false;
+		}else{
+			$.ajax({
+				url: '/categories',
+				type:'POST',
+				async: false,
+				data: {"category":{"value":document.formu.name.value},"metadata":{"version":0.6}},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert("Fallo la creacion");
+				}
+			});
+			return true;
+		}
+	}
+	function cambioNombre(){
+		$("#mensajeError").fadeOut("slow")
+	}
+	function eliminar(id){
+		$.ajax({
+				url: '/categories',
+				type:'DELETE',
+				async: false,
+				dataType: 'text',
+				data: {"id":id},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert(r.responseText);
+				}
+			});
+	}
+	function modificar(id){
+		/*$.ajax({
+				url: '/interests',
+				type:'DELETE',
+				async: false,
+				dataType: 'text',
+				data: {"id":id},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert(r.responseText);
+				}
+			});*/
+		alert("Modificar");
+	}
+</script>
+
+<body>
+
+<% include ../partials/navCategorias.ejs %>
+
+<div class="container">
+<h2>Categorias</h2>
+
+<ul>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nombre </th>
+					<th> Editar </th>
+					<th> Eliminar </th>
+				</tr>
+			</thead>
+			<tbody>
+			    <% results.forEach(function(r) { %>
+			    	<tr>
+					<th><%= r.name %></th>
+					<th> <button><span class="glyphicon glyphicon-pencil"></span></button> </th>
+					<th> <button onclick='eliminar("<%= r.id %>")'><span class="glyphicon glyphicon-remove"></span></button> </th>
+        			</tr>
+    			<% }); %>
+			</tbody>
+		</table>
+	</div>
+</ul>
+
+<h2>Creacion de Categorias</h2>
+	<ul>
+		<div class="table-responsive">
+
+		<form name="formu" onsubmit="return(validar());">
+			<label  for="name"> Nombre:</label>
+			<input class="form-control"   id="name" oninput="cambioNombre();" onkeyup="cambioNombre()" value=""> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre de la categoria</div>
+			<input class="btn btn-default" type="submit" value="Crear Categoria">
+		</form>
+		</div>
+	</ul>
+
+</div>
+
+</body>
+</html>

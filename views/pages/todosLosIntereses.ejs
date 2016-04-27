@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <% include ../partials/header.ejs %>
+</head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="jquery.serializeJSON.min.js"></script>
+
+<script type="text/javascript">
+	function validar(){
+		if(document.formu.name.value ==""){
+			$("#mensajeError").fadeIn("slow");
+			return false;
+		}else{
+			$.ajax({
+				url: '/interests',
+				type:'POST',
+				async: false,
+				data: {"interest":{"value":document.formu.name.value,"category":document.formu.category.value},"metadata":{"version":0.6}},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert("Fallo la creacion");
+				}
+			});
+			return true;
+		}
+	}
+	function cambioNombre(){
+		$("#mensajeError").fadeOut("slow")
+	}
+	function eliminar(id){
+		$.ajax({
+				url: '/interests',
+				type:'DELETE',
+				async: false,
+				dataType: 'text',
+				data: {"id":id},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert(r.responseText);
+				}
+			});
+	}
+	function modificar(id){
+		/*$.ajax({
+				url: '/interests',
+				type:'DELETE',
+				async: false,
+				dataType: 'text',
+				data: {"id":id},
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert(r.responseText);
+				}
+			});*/
+		alert("Modificar");
+	}
+</script>
+
+<body>
+
+<% include ../partials/navIntereses.ejs %>
+
+
+<div class="container">
+<h2>Intereses</h2>
+<ul>
+	<div class="table-responsive">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Nombre </th>
+					<th>Categoria </th>
+					<th>Editar </th>
+					<th>Eliminar </th>
+				</tr>
+			</thead>
+			<tbody>
+			    <% results.forEach(function(r) { %>
+			    	<tr>
+					<th><%= r.value %> </th>
+					<th><%= r.category %> </th>
+					<th><button onclick='modificar("<%= r.id %>")' <span class="glyphicon glyphicon-pencil"></span></button></th>
+					<th><button onclick='eliminar("<%= r.id %>")' <span class="glyphicon glyphicon-remove"></span></button></th>
+        			</tr>
+    			<% }); %>
+			</tbody>
+		</table>
+	</div>
+</ul>
+<h2>Creacion de Interes</h2>
+	<ul>
+		<div class="table-responsive">
+
+		<form name="formu" onsubmit="return(validar());">
+			<label  for="name"> Nombre:</label>
+			<input class="form-control" name="interest[value]" id="name" oninput="cambioNombre();" onkeyup="cambioNombre()" value=""> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre del interes</div>
+			<label> Categoria: </label>
+			<select class="form-control" id="category" name="interest[category]">
+				<% categorias.forEach(function(c){ %>
+					<option> <%= c.name %></option>
+				<% }); %>
+			</select> <br> 
+			<input name="metadata[version]" type="hidden" value="0.5">
+			<input class="btn btn-default" type="submit" value="Crear Interes">
+			<p id="label"></p>
+		</form>
+		</div>
+	</ul>
+
+</body>
+</html>
