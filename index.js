@@ -478,6 +478,7 @@ app.get('/users', function(req, res) {
     	}
         var rta = {};
         rta.metadata = escribirMetadata(result.length);
+        rta.users = result;
         return res.status(200).json(rta);
     });
 }); 
