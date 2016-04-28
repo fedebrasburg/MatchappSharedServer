@@ -291,7 +291,7 @@ app.delete('/categories',function(req,res){
         intQuery.on('row', function(row) {
         	cont++;
         });
-        intQuery.on('end', function(row) {
+        intQuery.on('end', function() {
 	        if(cont > 0){
 	            done();
 	            console.log("Ya lo tenia un interes");
