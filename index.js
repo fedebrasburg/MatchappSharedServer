@@ -286,9 +286,17 @@ app.delete('/categories',function(req,res){
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        client.query("Delete from categorias where id=($1)",[req.body.id],function(err,result){
+        var intQuery=client.query("Select * from intereses where categoria=($1)",[req.body.id]);
+        intQuery.on('row', function(row) {
             done();
-            return res.sendStatus(200);
+            console.log("Ya lo tenia un interes");
+            return res.status(500).send("Some interest has that category");
+        });
+        intQuery.end( function(row) {
+            client.query("Delete from categorias where id=($1)",[req.body.id],function(err,result){
+            	done();
+            	return res.sendStatus(200);
+        	});
         });
     });
 });
