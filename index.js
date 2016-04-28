@@ -106,8 +106,13 @@ function pasarAIngles(usuario){
         aux.id = usuario[i].id;
         aux.email = usuario[i].email;
         aux.location = {};
+        if(usuario[i].ubicacion != undefined){
         aux.location.latitude = usuario[i].ubicacion.latitud;
         aux.location.longitude = usuario[i].ubicacion.longitud;
+        }else{
+            aux.location.latitude = 2;
+            aux.location.longitude = 4; 
+        }
         aux.interests = usuario[i].interes;
         user.push( aux);
     }
