@@ -286,7 +286,7 @@ app.delete('/categories',function(req,res){
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        var intQuery=client.query("Select * from intereses where categoria=($1)",[req.body.id]);
+        var intQuery=client.query("Select * from interes where categoria=($1)",[req.body.id]);
         intQuery.on('row', function(row) {
             done();
             console.log("Ya lo tenia un interes");
