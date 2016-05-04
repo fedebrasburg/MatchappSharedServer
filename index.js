@@ -5,6 +5,7 @@ var version = 1;
 var bodyParser = require("body-parser");
 var connectionString = process.env.DATABASE_URL;
 var pg = require('pg');
+var validadores = require("./Validadores.js");
 
 app.use(bodyParser.json({limit:'50mb'})); // for parsing application/json
 app.use(bodyParser.urlencoded({ limit:'50mb',extended: true })); // for parsing application/x-www-form-
@@ -153,6 +154,7 @@ function obtenerIntereses(res,callback){
 
     });
 }
+
 function obtenerUsuarios(res,callback){
     // Get a Postgres client from the connection pool
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -244,7 +246,7 @@ function buscarPorId(id,callback){
 
 //Obtener categorias
 app.get('/categories',function(req,res){
-    obtenerCategorias(res,function(success,result){
+	obtenerCategorias(res,function(success,result){
     	if(!success){
     		return res.status(500).json({ success: false});
     	}
@@ -315,9 +317,10 @@ app.delete('/categories',function(req,res){
 //Creacion de interes
 app.post('/interests', function (req, res, next) {
 
-    var results = [];
-    console.log("Se solicito la creacion de un interes con los siguientes datos:")
-	console.log(req.body);
+	//Valido estructura
+	if(!validadores.postInteres(req.body)){
+		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+	}
     var data = {nombre: req.body.interest.value, categoria: req.body.interest.category};
 
     pg.connect(process.env.DATABASE_URL, function(err, client, done) {
@@ -424,7 +427,11 @@ app.get('/interests', function(req, res) {
 
 /*Create de usuario*/
 app.post('/users', function (req, res, next) {
-    // Grab data from http request
+
+	//Valido los datos
+	if(!validadores.postUsuario(req.body)){
+		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+	}
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
 	sexo: req.body.user.sex, edad: req.body.user.age, foto: req.body.user.photo_profile,
 	email: req.body.user.email};
@@ -511,6 +518,10 @@ app.get('/users/:usu_id', function(req, res) {
 // Modifica usuario
 app.put('/users/:usu_id', function(req, res) {
 
+	//validar estructura
+	if(!validadores.putUsuario(req.body)){
+		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+	}
     var results = [];
     var id = req.params.usu_id;
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
@@ -555,6 +566,10 @@ app.put('/users/:usu_id', function(req, res) {
 // Modifica foto de perfil
 app.put('/users/:usu_id/photo', function(req, res) {
      
+    //Valido esquema
+    if(!validadores.putFoto(req.body)){
+		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+	}
     var id =  req.params.usu_id;
     var foto = req.body.photo;
 
