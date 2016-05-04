@@ -43,6 +43,9 @@ app.get('/crearUsuario', function (request, response) {
     response.render('pages/crearUsuario'); 
 });
 
+app.get('/modificarInteres/:id', function (request, response) {
+    response.render('pages/modificarInteres',{id: request.params.id}); 
+});
 
 app.get('/todosLosIntereses', function (request, response) {
     obtenerIntereses(response,function(success,result){
@@ -282,6 +285,8 @@ app.put('/categories',function(req,res){
           return res.status(500).json({ success: false, data: err});
         }
         client.query("Update categorias set nombre=($1) where id=($2)",[req.body.category.value,req.bodyParser.category.id]);
+    	done();
+    	return res.sendStatus(200);
     });
 });
 
