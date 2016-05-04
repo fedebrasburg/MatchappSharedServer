@@ -284,7 +284,7 @@ app.put('/categories',function(req,res){
           console.log(err);
           return res.status(500).json({ success: false, data: err});
         }
-        client.query("Update categorias set nombre=($1) where id=($2)",[req.body.category.value,req.bodyParser.category.id]);
+        client.query("Update categorias set nombre=($1) where id=($2)",[req.body.category.value,req.body.category.id]);
     	done();
     	return res.sendStatus(200);
     });

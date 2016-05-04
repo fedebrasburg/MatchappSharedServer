@@ -43,21 +43,23 @@
 				}
 			});
 	}
-	function modificar(id){
-		/*$.ajax({
-				url: '/interests',
-				type:'DELETE',
+	function modificar(id,nombre){
+		var nombre = prompt("Ingrese nuevo nombre", nombre);
+		if (nombre != null) {
+		    $.ajax({
+				url: '/categories',
+				type:'PUT',
 				async: false,
 				dataType: 'text',
-				data: {"id":id},
+				data: {"category":{"value":nombre,"id":id}},
 				success:function(r){
 					location.reload();
 				},
 				error:function(r){
 					alert(r.responseText);
 				}
-			});*/
-		alert("Modificar");
+			});
+		}
 	}
 </script>
 
@@ -82,7 +84,7 @@
 			    <% results.forEach(function(r) { %>
 			    	<tr>
 					<th><%= r.name %></th>
-					<th> <button><span class="glyphicon glyphicon-pencil"></span></button> </th>
+					<th> <button onclick='modificar("<%= r.id %>","<%= r.name %>")'><span class="glyphicon glyphicon-pencil"></span></button> </th>
 					<th> <button onclick='eliminar("<%= r.id %>")'><span class="glyphicon glyphicon-remove"></span></button> </th>
         			</tr>
     			<% }); %>
