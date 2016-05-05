@@ -403,7 +403,7 @@ app.put('/interests',function(req,res){
         var idCategoria = -1;
         var buscarId = client.query("Select id from categorias where nombre=($1)",[req.body.categoria]);
         buscarId.on('row',function(row){
-            console.log(row);
+            idCategoria = row.id;
         });
         buscarId.on('end',function(){
             if(idCategoria == -1){
