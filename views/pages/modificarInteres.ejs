@@ -9,7 +9,7 @@
 <script type="text/javascript">
 
 function validar(){
-		location.href=".../clarin";
+		location.href="http://www.clarin.com";
 		if(document.formu.name.value ==""){
 			$("#mensajeError").fadeIn("slow");
 			return false;
@@ -43,7 +43,7 @@ function validar(){
 <ul>
 		<div class="table-responsive">
 
-		<form name="formu" onsubmit="return(validar());">
+		<form name="formu" onsubmit="(return(validar());">
 			<label  for="name"> Nombre:</label>
 			<input class="form-control"  id="name" oninput="cambioNombre();" value="<%= interes %>" onkeyup="cambioNombre()" value=""> <br>
 			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre del interes</div>
@@ -59,7 +59,6 @@ function validar(){
 			</select> <br> 
 			<input class="btn btn-default" type="submit" value="Modificar Interes">
 			<button type="button" class="btn">Cancelar</button>
-			<p id="label"></p>
 		</form>
 		</div>
 	</ul>
