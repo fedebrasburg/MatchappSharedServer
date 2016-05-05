@@ -401,7 +401,7 @@ app.put('/interests',function(req,res){
           return res.status(500).send(json({ success: false, data: err}));
         }
         var idCategoria = -1;
-        var buscarId = client.query("Select id from categoria where nombre=($1)",[req.body.categoria]);
+        var buscarId = client.query("Select id from categorias where nombre=($1)",[req.body.categoria]);
         buscarId.on('row',function(row){
             console.log(row);
         });
