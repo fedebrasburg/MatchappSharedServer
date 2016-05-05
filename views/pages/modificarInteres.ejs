@@ -6,13 +6,38 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="jquery.serializeJSON.min.js"></script>
 
+<script type="text/javascript">
 
+function validar(){
+		if(document.formu.name.value ==""){
+			$("#mensajeError").fadeIn("slow");
+			return false;
+		}else{
+			$.ajax({
+				url: '/interests',
+				type:'PUT',
+				async: false,
+				data: {"interes":document.formu.name.value,"categoria":document.formu.category.value,"id": id},
+				success:function(r){
+					location.href="/todosLosIntereses";
+				},
+				error:function(r){
+					alert("Fallo la Modificacion");
+				}
+			});
+			return true;
+		}
+	}
+	function cambioNombre(){
+		$("#mensajeError").fadeOut("slow")
+	}
+</script>
 
 <body>
 
 <% include ../partials/navIntereses.ejs %>
 <div class="container">
-<h1> Modificar interes: " <%= interes %> " </h1>
+<h1> Modificar interes: <%= interes %>  </h1>
 <ul>
 		<div class="table-responsive">
 
