@@ -25,6 +25,7 @@ function validar(id){
 				},
 				error:function(r){
 					alert("Fallo la Modificacion");
+					alert(r);
 				}
 			});
 		}
@@ -60,7 +61,7 @@ function validar(id){
 				<% }); %>
 			</select> <br> 
 			<input class="btn btn-default" type="submit" value="Modificar Interes">
-			<button type="button" onclick='validar("<%= id %>")' class="btn">Cancelar</button>
+			<button type="button" onclick='cancelar()' class="btn">Cancelar</button>
 		</form>
 		</div>
 	</ul>
