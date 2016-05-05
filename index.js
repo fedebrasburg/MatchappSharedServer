@@ -48,7 +48,7 @@ app.get('/modificarInteres/:id/:interes/:categoria', function (request, response
     	if(success == false){
     		response.render('pages/noConeccion');
     	}else{
-        	response.render('pages/modificarInteres',{id: request.params.id, interes: request.params.interes, categoria: request.params.categoria, categorias: results}); 
+        	response.render('pages/modificarInteres',{id: request.params.id, interes: request.params.interes, categoria: request.params.categoria, categorias: result}); 
     	}
     });
 });
