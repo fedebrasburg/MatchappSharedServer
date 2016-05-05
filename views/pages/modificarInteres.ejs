@@ -24,7 +24,7 @@
 			<select class="form-control" id="category" value="<%= categoria %>" name="interest[category]">
 				<% categorias.forEach(function(c){ %>
 					<%= if(c.name == categoria){ %>
-						<option selected=""> <%= categoria %></option>
+						<option selected> <%= categoria %></option>
 					<%= }else{ %>
 						<option> <%= c.name %></option>
 					<%= } %>
