@@ -8,8 +8,8 @@
 
 <script type="text/javascript">
 
-function validar(){
-	alert(id);
+function validar(id){
+	alert( id);
 		if(document.formu.name.value ==""){
 			$("#mensajeError").fadeIn("slow");
 			return false;
@@ -45,7 +45,7 @@ function validar(){
 <ul>
 		<div class="table-responsive">
 
-		<form name="formu" onsubmit="validar()">
+		<form name="formu" onsubmit='validar("<%= id %>")'>
 			<label  for="name"> Nombre:</label>
 			<input class="form-control"  id="name" oninput="cambioNombre();" value="<%= interes %>" onkeyup="cambioNombre()" value=""> <br>
 			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre del interes</div>
@@ -60,7 +60,7 @@ function validar(){
 				<% }); %>
 			</select> <br> 
 			<input class="btn btn-default" type="submit" value="Modificar Interes">
-			<button type="button" onclick="validar()" class="btn">Cancelar</button>
+			<button type="button" onclick='validar("<%= id %>")' class="btn">Cancelar</button>
 		</form>
 		</div>
 	</ul>
