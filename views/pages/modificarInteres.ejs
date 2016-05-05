@@ -23,7 +23,11 @@
 			<label> Categoria: </label>
 			<select class="form-control" id="category" value="<%= categoria %>" name="interest[category]">
 				<% categorias.forEach(function(c){ %>
-					<option> <%= c.name %></option>
+					<%= if(c.name == categoria){ %>
+						<option selected=""> <%= categoria %></option>
+					<%= }else{ %>
+						<option> <%= c.name %></option>
+					<%= } %>
 				<% }); %>
 			</select> <br> 
 			<input name="metadata[version]" type="hidden" value="0.5">
