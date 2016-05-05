@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <% include ../partials/header.ejs %>
+  <% include ......../partials/header.ejs %>
 </head>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="jquery.serializeJSON.min.js"></script>
@@ -31,7 +31,10 @@ function validar(){
 		}
 	}
 	function cambioNombre(){
-		$("#mensajeError").fadeOut("slow")
+		$("#mensajeError").fadeOut("slow");
+	}
+	function cancelar(){
+		location.href="/todosLosIntereses";
 	}
 </script>
 
@@ -58,7 +61,7 @@ function validar(){
 				<% }); %>
 			</select> <br> 
 			<input class="btn btn-default" type="submit" value="Modificar Interes">
-			<button type="button" class="btn">Cancelar</button>
+			<button type="button" onclick="cancelar()" class="btn">Cancelar</button>
 		</form>
 		</div>
 	</ul>
