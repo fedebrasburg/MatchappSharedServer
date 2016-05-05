@@ -19,6 +19,7 @@ function validar(){
 				async: false,
 				data: {"interes":document.formu.name.value,"categoria":document.formu.category.value,"id": id},
 				success:function(r){
+					alert("funciono");
 					location.href="/todosLosIntereses";
 				},
 				error:function(r){
