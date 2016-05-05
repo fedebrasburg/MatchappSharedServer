@@ -20,15 +20,14 @@ function validar(id){
 				async: false,
 				data: {"interes":document.formu.name.value,"categoria":document.formu.category.value,"id": id},
 				success:function(r){
-					alert("funciono");
 					location.href="/todosLosIntereses";
 				},
 				error:function(r){
 					alert("Fallo la Modificacion");
-					alert(r);
 				}
 			});
 		}
+		return true;
 	}
 	function cambioNombre(){
 		$("#mensajeError").fadeOut("slow");
