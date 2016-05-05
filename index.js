@@ -43,8 +43,8 @@ app.get('/crearUsuario', function (request, response) {
     response.render('pages/crearUsuario'); 
 });
 
-app.get('/modificarInteres/:id', function (request, response) {
-    response.render('pages/modificarInteres',{id: request.params.id}); 
+app.get('/modificarInteres/:id/:interes/:categoria', function (request, response) {
+    response.render('pages/modificarInteres',{id: request.params.id, interes: request.params.interes, categoria: request.params.categoria}); 
 });
 
 app.get('/todosLosIntereses', function (request, response) {
