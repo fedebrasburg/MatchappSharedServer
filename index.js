@@ -410,7 +410,7 @@ app.put('/interests',function(req,res){
                 done();
                 return  res.status(500).send("No se encontro categoria");
             }
-            client.query("Update interes set nombre=($1), categoria=($2) where id=($3)",[req.body.nombre,idCategoria,req.body.id],function(err){
+            client.query("Update interes set nombre=($1), categoria=($2) where id=($3)",[req.body.interes,idCategoria,req.body.id],function(err){
                 done();
                 return res.sendStatus(201);
             });
