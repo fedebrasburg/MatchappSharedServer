@@ -9,7 +9,7 @@
 <script type="text/javascript">
 
 function validar(){
-		alert("Entro a validar");
+	location.href="/todosLosIntereses";
 		if(document.formu.name.value ==""){
 			$("#mensajeError").fadeIn("slow");
 			return false;
@@ -27,7 +27,6 @@ function validar(){
 					alert("Fallo la Modificacion");
 				}
 			});
-			return true;
 		}
 	}
 	function cambioNombre(){
