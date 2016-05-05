@@ -12,9 +12,27 @@
 
 <% include ../partials/navIntereses.ejs %>
 <div class="container">
+<h1> Modificar interes: " <%= interes %> " </h1>
+<ul>
+		<div class="table-responsive">
+
+		<form name="formu" onsubmit="return(validar());">
+			<label  for="name"> Nombre:</label>
+			<input class="form-control" name="interest[value]" id="name" oninput="cambioNombre();" value="<%= interes %>" onkeyup="cambioNombre()" value=""> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre del interes</div>
+			<label> Categoria: </label>
+			<select class="form-control" id="category" value="<%= categoria %>" name="interest[category]">
+				<% categorias.forEach(function(c){ %>
+					<option> <%= c.name %></option>
+				<% }); %>
+			</select> <br> 
+			<input name="metadata[version]" type="hidden" value="0.5">
+			<input class="btn btn-default" type="submit" value="Modificar Interes">
+			<p id="label"></p>
+		</form>
+		</div>
+	</ul>
 <%= id %>
-<%= categoria %>
-<%= interes %>
 </div>
 
 </body>
