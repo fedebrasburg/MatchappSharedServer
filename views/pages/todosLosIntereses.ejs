@@ -45,8 +45,8 @@
 				}
 			});
 	}
-	function modificar(id){
-        location.href = "/modificarInteres/"+id;
+	function modificar(id,interes,categoria){
+        location.href = "/modificarInteres/"+id+"/"+interes+"/"+categoria;
 	}
 </script>
 
@@ -73,7 +73,7 @@
 			    	<tr>
 					<th><%= r.value %> </th>
 					<th><%= r.category %> </th>
-					<th><button onclick='modificar("<%= r.id %>")' <span class="glyphicon glyphicon-pencil"></span></button></th>
+					<th><button onclick='modificar("<%= r.id %>","<%= r.value %>","<%= r.category %>")' <span class="glyphicon glyphicon-pencil"></span></button></th>
 					<th><button onclick='eliminar("<%= r.id %>")' <span class="glyphicon glyphicon-remove"></span></button></th>
         			</tr>
     			<% }); %>
