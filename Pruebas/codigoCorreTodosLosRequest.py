@@ -6,13 +6,16 @@ foto = "data:image/jpg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQ
 ubicacion = {'latitude':-34.610510, 'longitude':-58.386391}
 user = {'name':'Prueba con esquema','interests':intereses,'location':ubicacion,'alias':'Robert','age':45,'sex':'H','photo_profile':foto,'email':'roberto.gonzales@gmail.com'}
 headers = {'content-type': 'application/json'}
-metadata = {'version':"0.567"}
+metadata = {'version':"0.567","count":1}
 r = {}
 r['user'] = user
 r['metadata'] = metadata
 photo = {'photo':'FOTO FACHERA'}
-intereses2 =  {'interest':{'value':'Asado','category':'food'}}
-intereses2['metadata'] = {'version':'56','count':1}
+intereses2 =  {'value':'Chico Serna','category':'Deporte'}
+interesNuevo = {}
+interesNuevo["interest"] = intereses2
+interesNuevo["metadata"] = metadata
+
 
 
 
@@ -29,7 +32,7 @@ intereses2['metadata'] = {'version':'56','count':1}
 #r = requests.get('http://127.0.0.1:3000/api/v1/tander/users/123')
 
 #alta de interes
-r = requests.post('http://localhost:5000/interests',data=json.dumps(intereses2), headers=headers)
+r = requests.post('http://localhost:5000/interests',data=json.dumps(interesNuevo), headers=headers)
 
 #Modificacion foto de usuario
 #photo = {'photo':'base_64'}
@@ -41,4 +44,5 @@ r = requests.post('http://localhost:5000/interests',data=json.dumps(intereses2),
 #Modificacion usuario
 #r = requests.put('http://localhost:5000/users/1',data = json.dumps(r),headers=headers)
 
+print(r.status_code)
 print(r.json())
