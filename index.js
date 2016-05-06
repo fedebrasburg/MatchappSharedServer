@@ -341,17 +341,17 @@ app.post('/interests', function (req, res, next) {
           return res.status(500).json({ success: false, data: err});
         }
         //Busco el id de la categoria
-        var id = []
+        var id = 0;
         var consulta = client.query("Select id from categorias where nombre = '"+data.categoria+"'");
         consulta.on('row', function(row) {
-            data.categoria = row.id;
+            id = row.id;
         });
-        if(data.categoria == undefined){
-          done();
-          return res.status(500).json({ success: false, data: "Categoria inexistente"});
-        }
         consulta.on('end',function(err){
-            client.query("INSERT INTO interes (nombre,categoria) values($1,$2)", [data.nombre,data.categoria],function(err,result){
+        	if(id == 0){
+	          done();
+	          return res.status(500).json({ success: false, data: "Categoria inexistente"});
+	        }
+            client.query("INSERT INTO interes (nombre,categoria) values($1,$2)", [data.nombre,id],function(err,result){
                 done();
                 return res.sendStatus(201);
             });

@@ -9,7 +9,6 @@
 <script type="text/javascript">
 
 function validar(id){
-	alert( id);
 		if(document.formu.name.value ==""){
 			$("#mensajeError").fadeIn("slow");
 			return false;
@@ -45,7 +44,7 @@ function validar(id){
 <ul>
 		<div class="table-responsive">
 
-		<form name="formu" onsubmit='validar("<%= id %>")'>
+		<form name="formu">
 			<label  for="name"> Nombre:</label>
 			<input class="form-control"  id="name" oninput="cambioNombre();" value="<%= interes %>" onkeyup="cambioNombre()" value=""> <br>
 			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeError"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre del interes</div>
@@ -59,7 +58,7 @@ function validar(id){
 					<% } %>
 				<% }); %>
 			</select> <br> 
-			<input class="btn btn-default" type="submit" value="Modificar Interes">
+			<input class="btn btn-default" type="button" onclick='validar("<%= id %>")' value="Modificar Interes">
 			<button type="button" onclick='cancelar()' class="btn">Cancelar</button>
 		</form>
 		</div>

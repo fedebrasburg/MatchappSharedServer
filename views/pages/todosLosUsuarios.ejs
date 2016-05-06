@@ -4,6 +4,23 @@
   <% include ../partials/header.ejs %>
 </head>
 
+<script type="text/javascript">
+	function eliminar(id){
+		$.ajax({
+				url: '/users/'+id,
+				type:'DELETE',
+				async: false,
+				dataType: 'text',
+				success:function(r){
+					location.reload();
+				},
+				error:function(r){
+					alert(r.responseText);
+				}
+			});
+	}
+</script>
+
 <body>
 
 <% include ../partials/navUsuarios.ejs %>
@@ -24,6 +41,7 @@
 					<th>Foto </th>
 					<th>Ubicacion </th>
 					<th>Intereses </th>
+					<th>Eliminar </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -53,6 +71,9 @@
 							<li class="list-group-item"> <%= a.value %></li>
 							<% });%>
 						</ul> 
+					</th>
+					<th>		
+						<button onclick='eliminar("<%= r.id %>")' <span class="glyphicon glyphicon-remove"></span></button>
 					</th>
         			</tr>
     				<% }); %>
