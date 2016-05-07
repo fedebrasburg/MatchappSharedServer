@@ -12,6 +12,13 @@
 <script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
 <link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css"/>
 
+<script type="text/javascript">
+	function agregar(){
+		alert(document.formu.fileToUpload.value);
+	}
+</script>
+
+
 
 <body>
 
@@ -21,18 +28,11 @@
 <div class="container">
 <h2>Creacion de Usuario</h2>
 
-<script type="text/javascript">
-    $(document).ready(function() {
-        $('#example-getting-started').multiselect({
-        	disableIfEmpty: true;
-        });
-    });
-</script>
 
 <ul>
 	<div class="table-responsive">
 		<div class="table-responsive">
-		<form   enctype="application/json">
+		<form  name="formu" enctype="application/json">
 			<label for="name"> Nombre y Apellido:</label>
 			<input class="form-control" name="user[name]" id="name" value="" required> <br>
 			<label for="alias"> Alias:</label>
@@ -47,17 +47,17 @@
 				<option>M</option>
 			</select> <br> 
 			<label> Foto: </label>
-			<input class="form-control" type="file" name="user[photo_profile]" id="fileToUpload">
+			<input class="form-control" type="file" name="user[photo_profile]" name="fileToUpload" id="fileToUpload">
 			<label> Intereses: </label> <br>
-			<select id="example-getting-started" title="Interests" multiple="multiple">
+			<select  title="Interests" multiple="multiple">
 			    <option value="cheese">Cheese</option>
 			    <option value="tomatoes">Tomatoes</option>
 			    <option value="mozarella">Mozzarella</option>
 			    <option value="mushrooms">Mushrooms</option>
 			    <option value="pepperoni">Pepperoni</option>
 			    <option value="onions">Onions</option>
-			</select>
-			<input class="btn btn-default" type="submit" value="Crear Usuarios">
+			</select> <br>
+			<input class="btn btn-default" type="button" onclick="agregar()" value="Crear Usuarios">
 		</form>
 		</div>
 	</div>
