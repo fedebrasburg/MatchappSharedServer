@@ -21,6 +21,8 @@
 	}
 </script>
 
+
+
 <body>
 
 <% include ../partials/navUsuarios.ejs %>
@@ -36,6 +38,7 @@
 					<th>Id </th>
 					<th>Nombre </th>
 					<th>Alias </th>
+					<th>Mail </th>
 					<th>Sexo </th>
 					<th>Edad </th>
 					<th>Foto </th>
@@ -49,6 +52,7 @@
 			    	<tr>
 			    	<th><%= r.id %></th>
 					<th><%= r.name %> </th>
+					<th><%= r.email %> </th>
 					<th><%= r.alias %> </th>
 					<th><%= r.sex %> </th>
 					<th><%= r.age %></th>
