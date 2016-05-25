@@ -13,7 +13,20 @@
 
 <script type="text/javascript">
 	function agregar(){
-		alert("apreto");
+		//Valores de los intereses
+		//alert($('#intereses').val());
+	}
+	function previewFile() {
+	  var preview = document.querySelector('img');
+	  var file    = document.querySelector('input[type=file]').files[0];
+	  var reader  = new FileReader();
+	  reader.addEventListener("load", function () {
+	    preview.src = reader.result;
+	  }, false);
+
+	  if (file) {
+	    reader.readAsDataURL(file);
+	  }
 	}
 </script>
 
@@ -49,11 +62,11 @@
 			<input class="form-control" name="user[longitude]" id="longitude" value="" placeholder="Longitud"required> <br>
 			<input class="form-control" name="user[latitude]" id="latitude" value="" placeholder="Latitud" required> <br>
 			<label> Foto de perfil</label>
-				<input id="photo_file" class="form-control input-sm" type="file" />
-				<img id="photo_to_send" src="" style="display: none" />
+				<input type="file" id="photo_file" class="form-control input-sm"  onchange="previewFile()"><br>
+				<img src="" height="200" alt="Imagen seleccionada..">
 			<br>
 			<label> Intereses: </label> <br>
-			<select data-placeholder="Seleccionar Intereses" style="width:350px;" class="chosen-select" multiple tabindex="7">
+			<select data-placeholder="Seleccionar Intereses" id="intereses" style="width:350px;" class="chosen-select" multiple tabindex="7">
             <option value=""></option>
             <% categorias.forEach(function(r){ %>
             	<optgroup label=" <%= r.name %>">
