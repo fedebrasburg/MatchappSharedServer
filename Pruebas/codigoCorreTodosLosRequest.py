@@ -14,7 +14,7 @@ photo = {'photo':'FOTO FACHERA'}
 intereses2 =  {'value':'Chico Serna','category':'Deporte'}
 interesNuevo = {}
 interesNuevo["interest"] = intereses2
-interesNuevo["metadata"] = metadata
+#interesNuevo["metadata"] = metadata
 
 
 
@@ -45,4 +45,4 @@ r = requests.post('http://localhost:5000/interests',data=json.dumps(interesNuevo
 #r = requests.put('http://localhost:5000/users/1',data = json.dumps(r),headers=headers)
 
 print(r.status_code)
-print(r.json())
+print(r.text)

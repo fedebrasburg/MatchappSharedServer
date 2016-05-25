@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var cool = require('cool-ascii-faces');
 var version = 1;
 var bodyParser = require("body-parser");
 var connectionString = process.env.DATABASE_URL;
@@ -257,7 +256,7 @@ function buscarPorId(id,callback){
 app.get('/categories',function(req,res){
 	obtenerCategorias(res,function(success,result){
     	if(!success){
-    		return res.status(500).json({ success: false});
+    		return res.status(500);
     	}
         var r = {};
         r.categories = result;
@@ -273,7 +272,7 @@ app.post('/categories',function(req,res){
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         client.query("Insert into categorias(nombre) values($1)",[req.body.category.value],function(err,result){
             done();
@@ -288,7 +287,7 @@ app.put('/categories',function(req,res){
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         client.query("Update categorias set nombre=($1) where id=($2)",[req.body.category.value,req.body.category.id]);
     	done();
@@ -302,7 +301,7 @@ app.delete('/categories',function(req,res){
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         var intQuery=client.query("Select * from interes where categoria=($1)",[req.body.id]);
         cont=0;
@@ -313,7 +312,7 @@ app.delete('/categories',function(req,res){
 	        if(cont > 0){
 	            done();
 	            console.log("Ya lo tenia un interes");
-	            return res.status(500).send("Some interest has that category");
+	            return res.status(500).send("Por lo menos un interes tiene la categoria que se quiere eliminar");
             }
             client.query("Delete from categorias where id=($1)",[req.body.id],function(err,result){
             	done();
@@ -330,7 +329,7 @@ app.post('/interests', function (req, res, next) {
 
 	//Valido estructura
 	if(!validadores.postInteres(req.body)){
-		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+		return res.status(500).send("Estructura incorrecta");
 	}
     var data = {nombre: req.body.interest.value, categoria: req.body.interest.category};
 
@@ -338,7 +337,7 @@ app.post('/interests', function (req, res, next) {
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         //Busco el id de la categoria
         var id = 0;
@@ -349,9 +348,10 @@ app.post('/interests', function (req, res, next) {
         consulta.on('end',function(err){
         	if(id == 0){
 	          done();
-	          return res.status(500).json({ success: false, data: "Categoria inexistente"});
+	          return res.status(500).send("Categoria inexistente");
 	        }
             client.query("INSERT INTO interes (nombre,categoria) values($1,$2)", [data.nombre,id],function(err,result){
+            	console.log("Error: " + err);
                 done();
                 return res.sendStatus(201);
             });
@@ -368,7 +368,7 @@ app.delete('/interests', function(req, res) {
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         //Me fijo si algun usuario lo tiene como interes, si es asi, no se puede eliminar
         relaciones = client.query("Select * from relacioniu where idinteres=($1)", [req.body.id]);
@@ -380,7 +380,7 @@ app.delete('/interests', function(req, res) {
             if(cont > 0){
                 done();
                 console.log("Ya lo tenia un user");
-                return res.status(500).send("Some user has that insterest");
+                return res.status(500).send("Por lo menos un usuario tiene este interes");
             }
             r = client.query("DELETE FROM interes WHERE id=($1)", [req.body.id]);
             r.on('end',function(){
@@ -398,7 +398,7 @@ app.put('/interests',function(req,res){
         if(err) {
           done();
           console.log(err);
-          return res.status(500).send(json({ success: false, data: err}));
+          return res.status(500).send(err);
         }
         var idCategoria = -1;
         var buscarId = client.query("Select id from categorias where nombre=($1)",[req.body.categoria]);
@@ -422,7 +422,7 @@ app.put('/interests',function(req,res){
 app.get('/interests', function(req, res) {
     obtenerIntereses(res,function(success,result){
     	if(!success){
-    		return res.status(500).json({ success: false});
+    		return res.status(500);
     	}
         var r = {};
         r.interests = result;
@@ -441,7 +441,7 @@ app.post('/users', function (req, res, next) {
 
 	//Valido los datos
 	if(!validadores.postUsuario(req.body)){
-		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+		return res.status(500).send("Estructura incorrecta")
 	}
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
 	sexo: req.body.user.sex, edad: req.body.user.age, foto: req.body.user.photo_profile,
@@ -455,7 +455,7 @@ app.post('/users', function (req, res, next) {
         if(err) {
           done();
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
         var query = client.query("INSERT INTO usuario	(nombre,alias,sexo,foto,email,edad) values($1,$2,$3,$4,$5,$6)", [data.nombre, data.alias,data.sexo,data.foto,data.email,data.edad]);
         query.on('end', function() {
@@ -467,7 +467,7 @@ app.post('/users', function (req, res, next) {
             id_search.on('end',function(){
                 if(id == -1){
                     done();
-                    return res.status(500).json({success: false, data: "No se pudo agregar"});
+                    return res.status(500).send("No se pudo agregar");
                 }
                 client.query("Insert into ubicaciones(usuario,longitud,latitud) values ("+id+","+ubicacion.longitud+","+ubicacion.latitud+")");
                 var i = 0;
@@ -481,7 +481,7 @@ app.post('/users', function (req, res, next) {
                             if(!fallo){
                                 fallo = true;
                                 done();
-                                return res.status(500).json({success: false, data: "No existen los interes"});
+                                return res.status(500).send("No existen los interes");
                             }
                         }else{
                             var r = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")")
@@ -509,7 +509,7 @@ app.post('/users', function (req, res, next) {
 app.get('/users', function(req, res) {
     obtenerUsuarios(res,function(success,result){
     	if(!success){
-    		return res.status(500).json({ success: false});
+    		return res.status(500);
     	}
         var rta = {};
         rta.metadata = escribirMetadata(result.length);
@@ -531,7 +531,7 @@ app.put('/users/:usu_id', function(req, res) {
 
 	//validar estructura
 	if(!validadores.putUsuario(req.body)){
-		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+		return res.status(500).send("Estructura incorrecta");
 	}
     var results = [];
     var id = req.params.usu_id;
@@ -547,7 +547,7 @@ app.put('/users/:usu_id', function(req, res) {
         if(err) {
           done();
           console.log(err);
-          return res.status(500).send(json({ success: false, data: err}));
+          return res.status(500).send(err);
         }
         var query = client.query("UPDATE usuario SET nombre=($1), alias=($2), sexo=($3), foto=($4), email=($5), edad=($6) WHERE id=($7)", [data.nombre, data.alias,data.sexo,data.foto,data.email,data.edad,id]);
         query.on('end', function() {
@@ -579,7 +579,7 @@ app.put('/users/:usu_id/photo', function(req, res) {
      
     //Valido esquema
     if(!validadores.putFoto(req.body)){
-		return res.status(500).json({success:false,data:"Estructura incorrecta"})
+		return res.status(500).send("Estructura incorrecta");
 	}
     var id =  req.params.usu_id;
     var foto = req.body.photo;
@@ -588,7 +588,7 @@ app.put('/users/:usu_id/photo', function(req, res) {
         if(err) {
           done();
           console.log(err);
-          return res.status(500).send(json({ success: false, data: err}));
+          return res.status(500).send(err);
         }
 
         var r = client.query("UPDATE usuario SET foto=($1) WHERE id=($2)", [foto,id]);
@@ -610,7 +610,7 @@ app.delete('/users/:usu_id', function(req, res) {
         if(err) {
           done()
           console.log(err);
-          return res.status(500).json({ success: false, data: err});
+          return res.status(500).send(err);
         }
 
         // SQL Query > Delete Data
