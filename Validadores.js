@@ -116,7 +116,7 @@ this.putUsuario=function(r) {
 	  	"id": "/General",
 	  	"type": "object",
 	  	"properties":{
-	  		"user":{"$ref":"/User"},
+	  		"user":{"$ref":"/UserWithId"},
 	  		"metadata":{"$ref":"/Metadata"}
 	  	},
 	  	"required": ["user","metadata"]
