@@ -55,7 +55,7 @@ var Validator = require('jsonschema').Validator;
 	  			"items":{"$ref":"/Interest"}
 	  		}
 	  	},
-	  	"required":["name","alias","sex","age","email","location","interests","photo_profile"]
+	  	"required":["name","alias","sex","age","email","location","interests","photo_profile","id"]
 	};
 
 	var metadataSchema = {
