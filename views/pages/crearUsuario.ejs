@@ -2,19 +2,18 @@
 <html>
 <head>
   <% include ../partials/header.ejs %>
+  <link rel="stylesheet" href="./scripts/chosen.css">
+  <style type="text/css" media="all">
+    /* fix rtl for demo */
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
 </head>
 
-<link rel="stylesheet" href="css/bootstrap.min.css" type="text/css"/>
-<script type="text/javascript" src="/js/jquery.min.js"></script>
-<script type="text/javascript" src="/js/bootstrap.min.js"></script>
  
-<!-- Include the plugin's CSS and JS: -->
-<script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
-<link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css"/>
 
 <script type="text/javascript">
 	function agregar(){
-		alert(document.formu.fileToUpload.value);
+		alert("apreto");
 	}
 </script>
 
@@ -46,22 +45,50 @@
 				<option>H</option>
 				<option>M</option>
 			</select> <br> 
-			<label> Foto: </label>
-			<input class="form-control" type="file" name="user[photo_profile]" name="fileToUpload" id="fileToUpload">
+			<label> Ubicacion </label>
+			<input class="form-control" name="user[longitude]" id="longitude" value="" placeholder="Longitud"required> <br>
+			<input class="form-control" name="user[latitude]" id="latitude" value="" placeholder="Latitud" required> <br>
+			<label> Foto de perfil</label>
+				<input id="photo_file" class="form-control input-sm" type="file" />
+				<img id="photo_to_send" src="" style="display: none" />
+			<br>
 			<label> Intereses: </label> <br>
-			<select  title="Interests" multiple="multiple">
-			    <option value="cheese">Cheese</option>
-			    <option value="tomatoes">Tomatoes</option>
-			    <option value="mozarella">Mozzarella</option>
-			    <option value="mushrooms">Mushrooms</option>
-			    <option value="pepperoni">Pepperoni</option>
-			    <option value="onions">Onions</option>
-			</select> <br>
+			<select data-placeholder="Seleccionar Intereses" style="width:350px;" class="chosen-select" multiple tabindex="7">
+            <option value=""></option>
+            <% categorias.forEach(function(r){ %>
+            	<optgroup label=" <%= r.name %>">
+            		<% intereses.forEach(function(i){ %>
+            			<% if(i.category == r.name){ %>
+            				<option> <%= i.value %></option>
+            			<% } %>
+            		<% }); %>
+            	</optgroup>
+            <% }); %>
+          	</select>
+          	<br>
+          	<br>
 			<input class="btn btn-default" type="button" onclick="agregar()" value="Crear Usuarios">
 		</form>
 		</div>
 	</div>
 </ul>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+<script src="./scripts/chosen.jquery.js" type="text/javascript"></script>
+<script src="./scripts/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
 
 </body>
 </html>

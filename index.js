@@ -39,7 +39,15 @@ app.get('/todosLosUsuarios', function (request, response) {
 });
 
 app.get('/crearUsuario', function (request, response) {
-    response.render('pages/crearUsuario'); 
+    obtenerIntereses(response,function(success,intereses){
+        if(success){
+            obtenerCategorias(response,function(success,categorias){
+                response.render('pages/crearUsuario',{categorias:categorias,intereses:intereses}); 
+            });
+        }else{
+            response.render('pages/noConeccion');
+        }
+    });
 });
 
 app.get('/modificarInteres/:id/:interes/:categoria', function (request, response) {
