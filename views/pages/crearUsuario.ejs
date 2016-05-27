@@ -18,6 +18,43 @@
 	function agregar(){
 
 		var valores = $('#intereses').val();
+		var entro = false;
+		if(document.formu.name.value ==""){
+			entro = true;
+			$('#mensajeErrorNombre').fadeIn("slow");
+		}
+		if(document.formu.alias.value ==""){
+			entro = true;
+			$('#mensajeErrorAlias').fadeIn("slow");
+		}
+		if(document.formu.email.value ==""){
+			entro = true;
+			$('#mensajeErrorMail').fadeIn("slow");
+		}
+		if(document.formu.age.value ==""){
+			entro = true;
+			$('#mensajeErrorEdad').fadeIn("slow");
+		}
+		if(document.formu.longitude.value ==""){
+			entro = true;
+			$('#mensajeErrorLongitud').fadeIn("slow");
+		}
+		if(document.formu.latitude.value ==""){
+			entro = true;
+			$('#mensajeErrorLatitud').fadeIn("slow");
+		}
+		if( valores.length == 0){
+			entro = true;
+			$('#mensajeErrorInteres').fadeIn("slow");
+		}
+		if(document.querySelector('img').src == ""){
+			entro = true;
+			$('#mensajeErrorFoto').fadeIn("slow");
+		}
+		if(entro){
+			return;
+		}
+
 		var i = [];
 		var cont = 0;
 		valores.forEach(function(v){
@@ -81,6 +118,31 @@
 	    reader.readAsDataURL(file);
 	  }
 	}
+
+	function cambioNombre(){
+		$("#mensajeErrorNombre").fadeOut("slow")
+	}
+	function cambioAlias(){
+		$("#mensajeErrorAlias").fadeOut("slow")
+	}
+	function cambioMail(){
+		$("#mensajeErrorMail").fadeOut("slow")
+	}
+	function cambioEdad(){
+		$("#mensajeErrorEdad").fadeOut("slow")
+	}
+	function cambioLongitud(){
+		$("#mensajeErrorLongitud").fadeOut("slow")
+	}
+	function cambioLatitud(){
+		$("#mensajeErrorLatitud").fadeOut("slow")
+	}
+	function cambioFoto(){
+		$("#mensajeErrorFoto").fadeOut("slow")
+	}
+	function cambioFoto(){
+		$("#mensajeErrorInteres").fadeOut("slow")
+	}
 </script>
 
 
@@ -99,23 +161,30 @@
 		<div class="table-responsive">
 		<form  name="formu" enctype="application/json">
 			<label for="name"> Nombre y Apellido:</label>
-			<input class="form-control" name="user[name]" id="name"  required> <br>
+			<input class="form-control" name="user[name]" oninput="cambioNombre();" id="name"  required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorNombre"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el nombre</div>
 			<label for="alias"> Alias:</label>
-			<input class="form-control" name="user[alias]" id="alias" required> <br>
+			<input class="form-control" name="user[alias]" oninput="cambioAlias();" id="alias" required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorAlias"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el alias</div>
 			<label for="email"> Mail:</label>
-			<input class="form-control" name="user[email]" id="email"  required> <br>
+			<input class="form-control" name="user[email]" oninput="cambioMail();" id="email"  required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorMail"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado el Mail</div>
 			<label for="age"> Edad:</label>
-			<input class="form-control" name="user[age]" id="age"  required> <br>
+			<input class="form-control" name="user[age]" id="age"  oninput="cambioEdad();" required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorEdad"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado la edad</div>
 			<label> Sexo:</label>
 			<select class="form-control" name="user[sex]" id="sex">
 				<option>H</option>
 				<option>M</option>
 			</select> <br> 
 			<label> Ubicacion </label>
-			<input class="form-control" name="user[longitude]" id="longitude"  placeholder="Longitud"required> <br>
-			<input class="form-control" name="user[latitude]" id="latitude"  placeholder="Latitud" required> <br>
+			<input class="form-control" name="user[longitude]" id="longitude" oninput="cambioLongitud();"  placeholder="Longitud"required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorLongitud"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado la latitud</div>
+			<input class="form-control" name="user[latitude]" id="latitude"  oninput="cambioLatitud();" placeholder="Latitud" required> <br>
+			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorLatitud"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado la longitud</div>
 			<label> Foto de perfil</label>
-				<input type="file" id="photo_file" class="form-control input-sm" required onchange="previewFile()"><br>
+				<input type="file" id="photo_file" class="form-control input-sm" required onchange="previewFile();cambioFoto();"><br>
+				<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorFoto"> <span class="glyphicon glyphicon-remove-sign"></span> No fue seleccionado ninguna foto </div>
 				<img src="" height="200" alt="Imagen seleccionada..">
 			<br>
 			<label> Intereses: </label> <br>
@@ -131,6 +200,7 @@
             	</optgroup>
             <% }); %>
           	</select>
+          	<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorInteres"> <span class="glyphicon glyphicon-remove-sign"></span> No fue seleccionado ningun interes </div>
           	<br>
           	<br>
 			<input class="btn btn-default" type="button" onclick="agregar()" value="Crear Usuario">
