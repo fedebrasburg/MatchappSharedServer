@@ -107,6 +107,7 @@ this.postUsuario=function(r) {
     if (resultado.errors.length == 0) {
     	return true;
     };
+    console.log(resultado.errors);
     return false;
 }
 

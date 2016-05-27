@@ -12,10 +12,63 @@
  
 
 <script type="text/javascript">
+
+
+
 	function agregar(){
-		//Valores de los intereses
-		//alert($('#intereses').val());
+
+		var valores = $('#intereses').val();
+		var i = [];
+		var cont = 0;
+		valores.forEach(function(v){
+			var aux = v.split("-");
+			var value = aux[0];
+			var category = aux [1];
+			i[cont] = {"value":value, "category":category};
+			cont++;
+		});
+		var name = document.formu.name.value;
+		var alias = document.formu.alias.value;
+		var email = document.formu.email.value;
+		var age = parseFloat(document.formu.age.value);
+		var sex = document.formu.sex.value;
+		var longitude = parseFloat(document.formu.longitude.value);
+		var latitude = parseFloat(document.formu.latitude.value);
+		var file    = document.querySelector('input[type=file]').files[0];
+	    var reader  = new FileReader();
+	    var preview = document.querySelector('img');
+	    photo_profile = preview.src;
+
+	    var js = {"user":
+	    			{"name":name,
+	    			"alias":alias,
+	    			"sex":sex,
+	    			"email":email,
+	    			"age":age,
+	    			"photo_profile":photo_profile,
+	    			"location":
+	    				{"latitude":latitude,
+	    				"longitude":longitude},
+	    			"interests": i
+	    			},
+	    			"metadata":
+	    				{"version":"0.1"}
+	    		};
+		$.ajax({
+				url: '/users',
+				type:'POST',
+				async: false,
+				data: js,
+				dataType: "json",
+				success:function(r){
+					location.href="/todosLosUsuarios";
+				},
+				error:function(r){
+					alert("Fallo la insercion:" + r.responseText);
+				}
+			});
 	}
+
 	function previewFile() {
 	  var preview = document.querySelector('img');
 	  var file    = document.querySelector('input[type=file]').files[0];
@@ -46,33 +99,33 @@
 		<div class="table-responsive">
 		<form  name="formu" enctype="application/json">
 			<label for="name"> Nombre y Apellido:</label>
-			<input class="form-control" name="user[name]" id="name" value="" required> <br>
+			<input class="form-control" name="user[name]" id="name"  required> <br>
 			<label for="alias"> Alias:</label>
-			<input class="form-control" name="user[alias]" id="alias" value="" required> <br>
+			<input class="form-control" name="user[alias]" id="alias" required> <br>
 			<label for="email"> Mail:</label>
-			<input class="form-control" name="user[email]" id="email" value="" required> <br>
+			<input class="form-control" name="user[email]" id="email"  required> <br>
 			<label for="age"> Edad:</label>
-			<input class="form-control" name="user[age]" id="age" value="" required> <br>
+			<input class="form-control" name="user[age]" id="age"  required> <br>
 			<label> Sexo:</label>
-			<select class="form-control" name="user[sex]">
+			<select class="form-control" name="user[sex]" id="sex">
 				<option>H</option>
 				<option>M</option>
 			</select> <br> 
 			<label> Ubicacion </label>
-			<input class="form-control" name="user[longitude]" id="longitude" value="" placeholder="Longitud"required> <br>
-			<input class="form-control" name="user[latitude]" id="latitude" value="" placeholder="Latitud" required> <br>
+			<input class="form-control" name="user[longitude]" id="longitude"  placeholder="Longitud"required> <br>
+			<input class="form-control" name="user[latitude]" id="latitude"  placeholder="Latitud" required> <br>
 			<label> Foto de perfil</label>
-				<input type="file" id="photo_file" class="form-control input-sm"  onchange="previewFile()"><br>
+				<input type="file" id="photo_file" class="form-control input-sm" required onchange="previewFile()"><br>
 				<img src="" height="200" alt="Imagen seleccionada..">
 			<br>
 			<label> Intereses: </label> <br>
-			<select data-placeholder="Seleccionar Intereses" id="intereses" style="width:350px;" class="chosen-select" multiple tabindex="7">
+			<select data-placeholder="Seleccionar Intereses" id="intereses" style="width:350px;" required class="chosen-select" multiple tabindex="7">
             <option value=""></option>
             <% categorias.forEach(function(r){ %>
             	<optgroup label=" <%= r.name %>">
             		<% intereses.forEach(function(i){ %>
             			<% if(i.category == r.name){ %>
-            				<option> <%= i.value %></option>
+            				<option value="<%= i.value+"-"+i.category %>"> <%= i.value %></option>
             			<% } %>
             		<% }); %>
             	</optgroup>
@@ -80,7 +133,7 @@
           	</select>
           	<br>
           	<br>
-			<input class="btn btn-default" type="button" onclick="agregar()" value="Crear Usuarios">
+			<input class="btn btn-default" type="button" onclick="agregar()" value="Crear Usuario">
 		</form>
 		</div>
 	</div>
