@@ -51,7 +51,6 @@
 			entro = true;
 			$('#mensajeErrorFoto').fadeIn("slow");
 		}
-		$('#mensajeErrorFoto').fadeIn("slow");
 		if(entro){
 			return;
 		}
@@ -185,7 +184,7 @@
 			<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorLatitud"> <span class="glyphicon glyphicon-remove-sign"></span> No fue ingresado la longitud</div>
 			<label> Foto de perfil</label>
 				<input type="file" id="photo_file" class="form-control input-sm" required onchange="previewFile();cambioFoto();"><br>
-				<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorFoto"> <span class="glyphicon glyphicon-remove-sign"></span> No fue seleccionado ninguna foto </div>
+				<div class="alert alert-danger" role="alert" style="display:none;" id="mensajeErrorFoto"> <span class="glyphicon glyphicon-remove-sign"></span> No fue seleccionada ninguna foto </div>
 				<img src="" height="200" alt="Imagen seleccionada..">
 			<br>
 			<label> Intereses: </label> <br>
