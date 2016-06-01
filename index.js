@@ -449,13 +449,12 @@ app.post('/users', function (req, res, next) {
 
 	//Valido los datos
     if(req.body.user != undefined && req.body.user.age != undefined && req.body.user.location != undefined && req.body.user.location.latitude != undefined && req.body.user.location.longitude){
-        console.log("llego bien");
         req.body.user.age = Number(req.body.user.age);
         req.body.user.location.latitude = Number(req.body.user.location.latitude);
         req.body.user.location.longitude = Number(req.body.user.location.longitude);
     }
 	if(!validadores.postUsuario(req.body)){
-		return res.status(500).send("Estructura incorrecta")
+		return res.status(500).send("Estructura incorrecta");
 	}
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
 	sexo: req.body.user.sex, edad: req.body.user.age, foto: req.body.user.photo_profile,
@@ -487,15 +486,17 @@ app.post('/users', function (req, res, next) {
                 var i = 0;
                 var fallo = false;
                 var aux = 0;
+                var cont = 0;
                 for ( i = 0; i < intereses.length; i ++) {
-                    console.log(intereses[0].value);
-                    console.log(intereses[0].category);
                     client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
                         if(result.rows.length == 0){
                             client.query("delete from relacioniu where idusuario="+id);
                             client.query("delete from usuario where id="+id);
                             done();
-                            return res.status(500).send("No existen los interes");
+                            if(cont == 0){
+                                cont++;
+                                return res.status(500).send("No existen los interes");
+                            }
                         }else{
                             var r = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")")
                             r.on('end',function(){
