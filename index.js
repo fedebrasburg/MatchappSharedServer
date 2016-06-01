@@ -490,24 +490,26 @@ app.post('/users', function (req, res, next) {
                 for ( i = 0; i < intereses.length; i ++) {
                     client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
                         if(result.rows.length == 0){
+                            done();
                             client.query("delete from relacioniu where idusuario="+id);
                             client.query("delete from usuario where id="+id);
-                            done();
                             if(cont == 0){
                                 cont++;
                                 return res.status(500).send("No existen los interes");
                             }
                         }else{
-                            var r = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")")
-                            r.on('end',function(){
-                                aux++;
-                                if( aux == intereses.length){
-                                    done();
-                                    buscarPorId(id,function(result){
-                                        return res.status(201).json(result);
-                                    });
-                                }
-                            });
+                            if(cont == 0){  
+                                var r = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")")
+                                r.on('end',function(){
+                                    aux++;
+                                    if( aux == intereses.length){
+                                        done();
+                                        buscarPorId(id,function(result){
+                                            return res.status(201).json(result);
+                                        });
+                                    }
+                                });
+                            }
                         }
                     });
                 }
