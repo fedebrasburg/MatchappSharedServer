@@ -611,20 +611,22 @@ app.put('/users/:usu_id', function(req, res) {
                 d = client.query('delete from relacioniu where idusuario='+id);
                 d.on('end',function(){
                 var aux = 0;
-                var termino = false;
+                var cont = 0;
                 console.log("PUT:Llegue a intereses");
                 for (var i = 0; i < intereses.length; i ++) {
                     console.log("Entre a intereses");
                     console.log(intereses[i].value);
                     client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
-                            if(!termino || result.rows.length == 0){
-                                termino = true;
+                            if(cont == 0 && result.rows.length == 0){
+                                cont++
+                                console.log("No xiste interes");
                                 return res.status(500).send("No existe algun interes");
                             }
                             var final = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")");
-                            aux++
                             final.on('end',function(){
-                                if(!termino && aux == intereses.length -1){
+                                console.log(aux);
+                                                            aux++
+                                if(cont == 0 && aux == intereses.length -1){
                                     done();
                                     buscarPorId(id,function(result){
                                         return res.status(201).json(result);
