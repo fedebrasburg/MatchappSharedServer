@@ -456,6 +456,7 @@ app.post('/users', function (req, res, next) {
 	if(!validadores.postUsuario(req.body)){
 		return res.status(500).send("Estructura incorrecta");
 	}
+    console.log("Paso los validadores");
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
 	sexo: req.body.user.sex, edad: req.body.user.age, foto: req.body.user.photo_profile,
 	email: req.body.user.email};
@@ -464,6 +465,7 @@ app.post('/users', function (req, res, next) {
     for(var i = 0;i < req.body.user.interests.length;i++){
         intereses.push(req.body.user.interests[i]);
     }
+    console.log("a1a");
     pg.connect(connectionString, function(err, client, done) {
         if(err) {
           done();
@@ -477,6 +479,7 @@ app.post('/users', function (req, res, next) {
             id_search.on('row', function(row) {
                 id =row.max;
             });
+            console.log("a1");
             id_search.on('end',function(){
                 if(id == -1){
                     done();
@@ -487,6 +490,7 @@ app.post('/users', function (req, res, next) {
                 var fallo = false;
                 var aux = 0;
                 var cont = 0;
+                console.log("LLegue hasta intereses");
                 for ( i = 0; i < intereses.length; i ++) {
                     client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
                         if(result.rows.length == 0){
@@ -511,6 +515,13 @@ app.post('/users', function (req, res, next) {
                                 });
                             }
                         }
+                    });
+                }
+                console.log("LLegue al final");
+                if(cont == 0){
+                    done();
+                    buscarPorId(id,function(result){
+                        return res.status(201).json(result);
                     });
                 }
             });
