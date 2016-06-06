@@ -560,6 +560,7 @@ app.put('/users/:usu_id', function(req, res) {
 	if(!validadores.putUsuario(req.body)){
 		return res.status(500).send("Estructura incorrecta");
 	}
+    console.log("PUT:Valide la estructura");
     var results = [];
     var id = req.params.usu_id;
     var data = {nombre: req.body.user.name, alias: req.body.user.alias,
@@ -570,28 +571,47 @@ app.put('/users/:usu_id', function(req, res) {
     for(var i = 0;i < req.body.user.interests.length;i++){
         intereses.push(req.body.user.interests[i]);
     }
+    console.log("PUT:Guarde los campos");
     pg.connect(connectionString, function(err, client, done) {
         if(err) {
           done();
           console.log(err);
           return res.status(500).send(err);
         }
+        console.log("PUT: Accedi a la base de datos")
         var query = client.query("UPDATE usuario SET nombre=($1), alias=($2), sexo=($3), foto=($4), email=($5), edad=($6) WHERE id=($7)", [data.nombre, data.alias,data.sexo,data.foto,data.email,data.edad,id]);
         query.on('end', function() {
             var q = client.query('Update ubicaciones set latitud='+ubicacion.latitude+', longitud='+ubicacion.longitude+' where usuario='+id);
             q.on('end',function(){
                 d = client.query('delete from relacioniu where idusuario='+id);
                 d.on('end',function(){
-                     var aux = 0;
+                var aux = 0;
+                var termino = false;
+                console.log("PUT:Llegue a intereses");
                 for (var i = 0; i < intereses.length; i ++) {
-                    client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"'",function(err, result){
-                            var final = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")")
+                    console.log("Entre a intereses");
+                    console.log(intereses[i].value);
+                    client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
+                            if(!termino || result.rows.length == 0){
+                                termino = true;
+                                return res.status(500).send("No existe algun interes");
+                            }
+                            var final = client.query("insert into relacioniu values("+id+","+result.rows[0].id+")");
+                            aux++
                             final.on('end',function(){
-                                done();
-                                buscarPorId(id,function(result){
-                                    return res.status(201).json(result);
-                                });
+                                if(!termino && aux == intereses.length -1){
+                                    done();
+                                    buscarPorId(id,function(result){
+                                        return res.status(201).json(result);
+                                    });
+                                }
                             });
+                        });
+                    }
+                    if(aux == 0){
+                        done();
+                        buscarPorId(id,function(result){
+                            return res.status(201).json(result);
                         });
                     }
                 });
