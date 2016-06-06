@@ -237,8 +237,6 @@ function buscarPorId(id,callback){
                 var id = 0;
                 var u = 0;
                 var q = client.query("select interes.nombre as value,categorias.nombre  as category from interes inner join relacioniu on relacioniu.idinteres=interes.id inner join categorias on categorias.id=interes.categoria where relacioniu.idusuario = '"+users[i].id+"'", function(err, interest) {
-                    console.log("Quiero acceder a user "+id);
-                    console.log("Largo de users adentro:" + users.length);
                     users[id].interes = interest.rows;
                     id++;
                 });
@@ -490,7 +488,6 @@ app.post('/users', function (req, res, next) {
     for(var i = 0;i < req.body.user.interests.length;i++){
         intereses.push(req.body.user.interests[i]);
     }
-    console.log("a1a");
     pg.connect(connectionString, function(err, client, done) {
         if(err) {
           done();
@@ -504,7 +501,6 @@ app.post('/users', function (req, res, next) {
             id_search.on('row', function(row) {
                 id =row.max;
             });
-            console.log("a1");
             id_search.on('end',function(){
                 if(id == -1){
                     done();
@@ -515,9 +511,7 @@ app.post('/users', function (req, res, next) {
                 var fallo = false;
                 var aux = 0;
                 var cont = 0;
-                console.log("LLegue hasta intereses");
                 for ( i = 0; i < intereses.length; i ++) {
-                    console.log("entre a intereses");
                     client.query("Select interes.id from interes inner join categorias on categorias.id=interes.categoria where categorias.nombre='"+intereses[i].category+"' and interes.nombre='"+intereses[i].value+"'",function(err, result){
                         if(result.rows.length == 0){
                             done();
@@ -535,6 +529,7 @@ app.post('/users', function (req, res, next) {
                                     if( aux == intereses.length){
                                         done();
                                         buscarPorId(id,function(result){
+                                            console.log(result);
                                             return res.status(201).json(result);
                                         });
                                     }
@@ -638,7 +633,7 @@ app.put('/users/:usu_id', function(req, res) {
                             });
                         });
                     }
-                    if(aux == 0){
+                    if(intereses.length == 0){
                         done();
                         buscarPorId(id,function(result){
                             return res.status(201).json(result);
