@@ -257,6 +257,28 @@ function buscarPorId(id,callback){
 
     });
 };
+//FOTO
+app.get('/users/:id/photo',function(req,res){
+    pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+        // Levanta las excepciones de la conecion
+        if(err) {
+          done();
+          console.log(err);
+          return res.status(500).send(err);
+        }
+        var id = req.params.id;
+        client.query("Select foto from usuario where id="+id,function(err,result){
+            if(result.rows.length == 0){
+                return res.status(500).send("No se encontro usuario");
+            }else{
+                var foto = result.rows[0].foto;
+                done();
+                return res.status(200).send(foto);
+            }
+        });
+    });
+});
+
 
 //CATEGORIAS
 
@@ -539,6 +561,10 @@ app.get('/users', function(req, res) {
     		return res.status(500);
     	}
         var rta = {};
+        var i = 0;
+        for(;i < result.length;i++){
+           result[i].photo_profile = "http://tander.herokuapp.com/users/"+result[i].id+"/photo";
+        }
         rta.metadata = escribirMetadata(result.length);
         rta.users = result;
         return res.status(200).json(rta);
