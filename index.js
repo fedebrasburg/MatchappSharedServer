@@ -695,6 +695,29 @@ app.delete('/users/:usu_id', function(req, res) {
 
 });
 
+//Borra toda la base de datos de los usuaiors
+app.delete('/borrarBase', function(req, res) {
+
+    pg.connect(connectionString, function(err, client, done) {
+        // Handle connection errors
+        if(err) {
+          done()
+          console.log(err);
+          return res.status(500).send(err);
+        }
+
+        // SQL Query > Delete Data
+        client.query("DELETE FROM usuario");
+        client.query("delete from ubicaciones ");
+        var r = client.query("delete from relacioniu");
+        r.on('end',function(){
+            done();
+            return res.sendStatus(200);
+        });
+    });
+
+});
+
 
 
 
