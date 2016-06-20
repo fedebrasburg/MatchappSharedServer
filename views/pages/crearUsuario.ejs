@@ -74,7 +74,8 @@
 		var file    = document.querySelector('input[type=file]').files[0];
 	    var reader  = new FileReader();
 	    var preview = document.querySelector('img');
-	    photo_profile = preview.src;
+	    var aux = preview.src.split(",");
+	    photo_profile = aux[1];
 
 	    var js = {"user":
 	    			{"name":name,
